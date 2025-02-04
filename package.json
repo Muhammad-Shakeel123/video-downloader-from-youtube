@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "this is the videos downloader",
   "main": "index.js",
+  "engines": {
+  "node": "22.x"
+},
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js"

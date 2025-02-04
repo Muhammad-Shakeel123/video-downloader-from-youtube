@@ -8,8 +8,11 @@
   ],
   "routes": [
     {
-      "src": "/video-download",
-      "dest": "/server.js"
+      "src": "/(.*)",
+      "dest": "server.js"
     }
-  ]
+  ],
+  "env": {
+    "PORT": "5000"
+  }
 }
