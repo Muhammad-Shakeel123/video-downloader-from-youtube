@@ -21,7 +21,7 @@ const downloadVideoYtDlp = async (url, filePath) => {
 
     await ytdlp(url, {
       format: 'best',
-      output: filePath,
+      output: filePath.replace(/\\/g, '/'), // Ensures correct path formatting
     });
 
     console.log(`✅ Video downloaded successfully: ${filePath}`);

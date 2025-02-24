@@ -20,12 +20,9 @@
     "nodemon": "^3.1.9"
   },
   "dependencies": {
-    "child_process": "^1.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "fs": "^0.0.1-security",
-    "https": "^1.0.0",
     "path": "^0.12.7",
     "yt-dlp-exec": "^1.0.2"
   }
