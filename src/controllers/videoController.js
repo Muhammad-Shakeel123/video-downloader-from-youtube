@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { spawn } = require('child_process');
+const ytdlp = require('yt-dlp-exec');
 const asyncHandler = require('../utils/asyncHandler');
 const ApiError = require('../utils/ApiError');
 const ApiResponse = require('../utils/ApiResponse');
@@ -14,23 +14,22 @@ const getDownloadPath = filename => {
   return path.join(downloadsDir, filename);
 };
 
-// 🎥 Function to download video using yt-dlp
-const downloadVideoYtDlp = (url, filePath) => {
-  return new Promise((resolve, reject) => {
-    const ytDlpPath = 'yt-dlp'; // Change if yt-dlp is not in PATH
-    const process = spawn(ytDlpPath, ['-f', 'best', '-o', filePath, url]);
+// 🎥 Function to download video using yt-dlp-exec
+const downloadVideoYtDlp = async (url, filePath) => {
+  try {
+    console.log(`📥 Downloading video from: ${url}`);
 
-    process.stdout.on('data', data => console.log(`yt-dlp: ${data}`));
-    process.stderr.on('data', data => console.error(`yt-dlp error: ${data}`));
-
-    process.on('close', code => {
-      if (code === 0) {
-        resolve(filePath);
-      } else {
-        reject(new ApiError(500, `yt-dlp process exited with code ${code}`));
-      }
+    await ytdlp(url, {
+      format: 'best',
+      output: filePath,
     });
-  });
+
+    console.log(`✅ Video downloaded successfully: ${filePath}`);
+    return filePath;
+  } catch (error) {
+    console.error(`❌ yt-dlp error: ${error.message}`);
+    throw new ApiError(500, `yt-dlp failed: ${error.message}`);
+  }
 };
 
 // 🚀 Main function to handle video downloads
@@ -43,8 +42,6 @@ exports.downloadVideo = asyncHandler(async (req, res, next) => {
   const timestamp = Date.now();
   const fileName = `downloaded_video_${timestamp}.mp4`;
   const filePath = getDownloadPath(fileName);
-
-  console.log(`📥 Downloading video from: ${url}`);
 
   try {
     await downloadVideoYtDlp(url, filePath);

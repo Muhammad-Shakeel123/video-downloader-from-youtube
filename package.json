@@ -4,8 +4,8 @@
   "description": "this is the videos downloader",
   "main": "index.js",
   "engines": {
-  "node": "22.x"
-},
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js"
@@ -26,6 +26,7 @@
     "express": "^4.21.2",
     "fs": "^0.0.1-security",
     "https": "^1.0.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "yt-dlp-exec": "^1.0.2"
   }
 }
